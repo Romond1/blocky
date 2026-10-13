@@ -1,0 +1,44 @@
+{
+  "name": "be-a-hero-block-world",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5188 --strictPort",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:browser": "node tests/playthrough.mjs",
+    "test:memory": "node tests/memory-playthrough.mjs",
+    "test:power": "node tests/power-playthrough.mjs",
+    "test:training": "node tests/training-playthrough.mjs",
+    "test:cooperation": "node tests/cooperation-playthrough.mjs",
+    "test:fruit": "node tests/fruit-lift-playthrough.mjs",
+    "test:visibility": "node tests/fruit-visibility.mjs",
+    "test:sorting": "node tests/sorting-foundry-playthrough.mjs",
+    "test:collectibles": "node tests/collectibles-browser.mjs",
+    "test:collectibles-production": "node tests/collectibles-production.mjs",
+    "test:kage": "node tests/kage-alcove-browser.mjs",
+    "test:luma": "node tests/luma-alcove-browser.mjs",
+    "test:underpass": "node tests/fruit-underpass-browser.mjs",
+    "test:action": "node tests/action-chamber-browser.mjs",
+    "test:ability": "node tests/ability-hall-browser.mjs",
+    "test:dragon": "node tests/dragon-browser.mjs",
+    "test:mobile": "node tests/mobile-browser.mjs",
+    "test:touch-puzzle": "node tests/touch-puzzle-browser.mjs",
+    "test:mobile-performance": "node tests/mobile-performance.mjs",
+    "test:teacher-rooms": "node tests/teacher-rooms-browser.mjs",
+    "test:dragon-held-bridge": "node tests/dragon-held-bridge-browser.mjs",
+    "test:dragon-floor": "node tests/dragon-floor-browser.mjs",
+    "test:dragon-lift-placement": "node tests/dragon-lift-placement-browser.mjs"
+  },
+  "dependencies": {
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.180.0",
+    "playwright": "^1.55.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.7"
+  }
+}

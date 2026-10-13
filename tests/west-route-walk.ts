@@ -1,0 +1,14 @@
+import {Game} from '../src/game.ts';import {HeroTeam} from '../src/team.ts';import {dragonPuzzle} from '../src/finale-layout.ts';
+const g=new Game(dragonPuzzle),t=new HeroTeam(g,'mia');Object.assign(g.finale!.heart,{state:'carried',carrier:'mia'});
+function go(h:'mia'|'yuki',x:number,z:number){t.select(h);for(let i=0;i<1800;i++){const p=t.actors[h],dx=x-p.x,dz=z-p.z,r=Math.hypot(dx,dz);if(r<.12){console.log('reached',h,x,z,g.motion[h].y);return;}t.update(1/60,dx/r,dz/r);}throw new Error(JSON.stringify({target:{h,x,z},actors:t.actors,motion:g.motion}));}
+go('mia',-25,33);go('yuki',-32,30);go('yuki',-32,24);go('yuki',-37,21);go('mia',-30,24);
+go('yuki',-30,21);go('yuki',-30,17);go('mia',-25,21);for(let i=0;i<150;i++)t.update(1/60);go('mia',-28,21);go('mia',-25,21);for(let i=0;i<150;i++)t.update(1/60);go('yuki',-28,3.5);go('yuki',-25,3.5);for(let i=0;i<150;i++)t.update(1/60);go('mia',-30,17);go('yuki',-28,3.5);go('yuki',-25,3.5);for(let i=0;i<150;i++)t.update(1/60);go('yuki',-28,3.5);go('yuki',-25,3.5);for(let i=0;i<150;i++)t.update(1/60);go('mia',-28,3.5);console.log('CROSSED',g.finale!.recoveries);
+go('mia',-29,4);g.facing=Math.PI;t.interact();if(g.carried)throw new Error('Heart drop failed');go('yuki',-29,4);g.facing=Math.PI;t.interact();if(g.carried!==g.finale!.heart)throw new Error('Heart handoff failed');go('yuki',-23,3.5);
+// Solve the relocated picture with real pickup and socket actions.
+go('mia',-34,4.2);g.facing=Math.PI;t.interact();if(g.carried?.text!=='RED')throw new Error('RED pickup failed');go('mia',-32,4);go('mia',-32,-.6);go('mia',-39.25,-.6);g.facing=Math.PI;t.interact();if(g.placed[0]?.text!=='RED')throw new Error('RED placement failed');
+go('mia',-42,-.6);go('mia',-42,4.2);go('mia',-41,4.2);g.facing=Math.PI;t.interact();if(g.carried?.text!=='APPLE')throw new Error('APPLE pickup failed');go('mia',-41,4.7);go('mia',-32,4.7);go('mia',-32,-.6);go('mia',-36.75,-.6);g.facing=Math.PI;t.interact();if(!g.finale!.dragon!.language[0])throw new Error('apple did not solve');
+go('mia',-29,3);go('mia',-25,0);go('mia',-30,-2);for(let i=0;i<300;i++)t.update(1/60);go('mia',-30,-7);go('mia',-35,-6.7);for(let i=0;i<300;i++)t.update(1/60);go('mia',-33,-7);
+go('yuki',-25,0);go('yuki',-30,-2);for(let i=0;i<300;i++)t.update(1/60);go('yuki',-30,-7);
+const waitFor=(fn:()=>boolean)=>{for(let i=0;i<2400;i++){if(fn())return;t.update(1/60);}throw new Error('shuttle wait timeout');};
+for(const h of ['mia','yuki'] as const){go(h,-30,-7);const w=g.finale!.dragon!.west;waitFor(()=>w.shuttleX===-30&&w.shuttleWait>1.5);t.select(h);for(let i=0;i<120&&t.actors[h].z> -9.9;i++)t.update(1/60,0,-1);waitFor(()=>w.shuttleX===-18&&w.shuttleWait>1.5);go(h,-18,-14);}
+if(!g.finale!.dragon!.west.complete)throw new Error('west route did not complete');console.log('PASS whole west route with movement, pickups, sockets, lift calls, shuttle, partners and Heart');

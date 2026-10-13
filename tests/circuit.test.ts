@@ -1,0 +1,9 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {Game} from '../src/game.ts';
+import {memoryPuzzle} from '../src/puzzles.ts';
+function place(g:Game,id:number,slot:number){const b=g.blocks[id];b.state='socket';b.slot=slot;Object.assign(b,g.layout.sockets[slot]);g.refreshTrainingPlates();}
+test('Room 1 teaches one letter circuit; the door waits for energy arrival',()=>{const g=new Game();assert.deepEqual(g.blocks.map(b=>b.text),['A','E','X']);assert.equal(g.layout.sockets.length,1);place(g,0,0);g.update(2);assert.equal(g.solved,false);assert.equal(g.conduitProgress[0],0);g.blocks[0].state='floor';place(g,1,0);assert.equal(g.solved,true);g.update(.6);assert.ok(g.conduitProgress[0]>0&&g.conduitProgress[0]<1);assert.equal(g.doorLift,0);g.update(1.3);assert.ok(g.doorPowered);assert.equal(g.doorLift,0);assert.ok(g.doorCharge>0&&g.doorCharge<1);g.update(.7);assert.ok(g.doorLift>0);g.blocks[1].state='floor';g.refreshTrainingPlates();assert.equal(g.conduitProgress[0],0);g.update(2);assert.equal(g.doorLift,0);g.reset();assert.deepEqual(g.conduitProgress,[0]);});
+test('Room 2 has independent circuits; both must reach the doorway',()=>{const g=new Game(memoryPuzzle);place(g,3,1);g.update(2);assert.deepEqual(g.conduitProgress,[0,1]);assert.equal(g.doorPowered,false);place(g,1,0);g.update(.5);assert.equal(g.doorLift,0);g.update(1.4);assert.ok(g.doorPowered);assert.equal(g.doorLift,0);g.update(.7);assert.ok(g.doorLift>0);});
+
+test('activation timing is independent of simulation step size and reset clears door glow',()=>{const coarse=new Game(),fine=new Game();place(coarse,1,0);place(fine,1,0);coarse.update(3);for(let i=0;i<180;i++)fine.update(1/60);assert.ok(Math.abs(coarse.doorLift-fine.doorLift)<1e-8);assert.equal(coarse.doorCharge,1);coarse.reset();assert.equal(coarse.doorCharge,0);assert.equal(coarse.doorPowered,false);});

@@ -1,0 +1,5 @@
+# Dragon’s Cave finale
+
+Preserve the existing lava lake, volcanic shell, giant pillars, entrance and opposite Heart sanctuary. Replace the broad ring with a narrow broken gallery: cooperation gate, timed jumping slabs and cargo ferry, construction cliff and existing elevator, then pillar-mounted sentence carousel. Keep controls and vocabulary from Rooms 4–9. Ordered team-and-Heart checkpoints illuminate four sanctuary nodes; the language lock rewards a permanent ceremonial crossing. Heart placement restores the cavern and reveals equal physical choice portals in randomized positions. Continue keeps the restored room playable; leave invokes a browser cutscene hook and fade. Telemetry uses the existing CustomEvent boundary, with no backend.
+
+Simulation and rendering share authored floor geometry. Existing Elevator, LavaFerry, SentenceCarousel, stack placement and Heart recovery remain the implementation contracts. NPCs hold in unsolved areas and while carrying cargo. Completed sectors persist through falls. Twelve coins use the existing economy with no secret room or final choice reward.

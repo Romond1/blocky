@@ -1,0 +1,20 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {Game,PRESSURE_PLATE_TOP} from '../src/game.ts';
+import {HeroTeam} from '../src/team.ts';
+import {powerPuzzle} from '../src/puzzles.ts';
+for(const hero of ['yuki','mia'] as const)for(const index of [0,1])test(`${hero} jumps onto plate ${index}, rests without activation, and steers off`,()=>{
+ const g=new Game(powerPuzzle),t=new HeroTeam(g,hero),p=g.layout.sockets[index];
+ g.player.x=p.x;g.player.z=p.z+1.7;
+ for(let i=0;i<30;i++)t.update(.02,0,-1);
+ assert.ok(g.player.z>p.z+1.4);assert.equal(g.motion[hero].y,0);
+ assert.ok(g.jump());for(let i=0;i<20;i++)t.update(.02,0,-1);
+ for(let i=0;i<60;i++)t.update(.02);
+ assert.equal(g.motion[hero].y,PRESSURE_PLATE_TOP);assert.ok(g.motion[hero].grounded);
+ assert.deepEqual(g.stageSolved,[false,false]);assert.equal(g.bridge.extension,0);assert.equal(g.doorLift,0);assert.equal(g.placed[index],undefined);
+ g.interact();assert.deepEqual(g.stageSolved,[false,false]);
+ const beforeJump=g.player.z;assert.ok(g.jump());for(let i=0;i<50;i++)t.update(.02,0,-1);
+ assert.equal(g.motion[hero].y,0);assert.ok(g.player.z<beforeJump-1.5);assert.deepEqual(g.stageSolved,[false,false]);
+ for(let i=0;i<40;i++)t.update(.02,0,1);for(let i=0;i<30;i++)t.update(.02);
+ assert.equal(g.motion[hero].y,0);assert.ok(g.motion[hero].grounded);
+});

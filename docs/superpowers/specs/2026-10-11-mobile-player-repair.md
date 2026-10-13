@@ -1,0 +1,11 @@
+# Mobile play, player interface and Dragon's Cave repair
+
+Preserve the Three.js/Vite game, Game/HeroTeam mechanics, heroes, puzzles, collectibles and keyboard experience. Extend the existing movement/action boundary with analog input and pointer-owned touch controls. Use capability/media-query detection with explicit auto/touch/keyboard preference; portrait touch phones show a rotation prompt. Camera drag remains because desktop camera is player-controlled. Pause gameplay and clear all input under menus, rotation, focus loss and cutscenes.
+
+Keep volcanic teal/gold HUD materials. Use compact room/objective, hero/ability and collectible strips; secondary controls in a real pause dialog. Touch targets remain at least 44 CSS pixels, respect safe areas and leave the center clear. Mobile welcome prioritizes hero selection and Play, with optional tutorial details. Preserve English/Japanese instructions and map keyboard hint vocabulary to touch actions.
+
+Add versioned local room progression alongside existing economy storage. Migrate only validated saved collectible identities, never a URL room number. Sequential completion unlocks the next room; replay/reset do not erase progress. Development server room fixtures remain available but never grant saved unlocks. Production URL access is clamped to saved unlocks. Hidden teacher access (five taps on pause title) uses code 1001 as a local convenience gate, not authentication; destructive resets require confirmation and affect only this browser.
+
+Audit the current four-sector Room 10 implementation, not the stale foundation README. Reproduce collision/route/progression errors, fix them with regression tests and retain existing sector mechanics and ending. Document a concrete simplification proposal separately; no major redesign or deployment is authorized.
+
+Validation: unit tests for analog input, capability selection, progress integrity and Room 10 regressions; browser checks of desktop and emulated touch, portrait/landscape, multitouch and cancellation, pause/reset/replay/teacher gate, first-room completion, existing room routes and Room 10. Record actual device/browser limitations and performance measurements. No Git metadata exists in this workspace, so use local files and backups rather than commits/worktrees.
